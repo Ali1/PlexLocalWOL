@@ -1,0 +1,16 @@
+[Unit]
+Description=Plex Wake On Lan Service via Local Device
+
+[Service]
+User=root
+Type=simple
+TimeoutSec=0
+PIDFile=/var/run/plexlocalwol.pid
+ExecStart=/bin/bash /home/ubuntu/PlexLocalWOL/bin/service
+KillMode=process
+
+Restart=on-failure
+RestartSec=42s
+
+[Install]
+WantedBy=default.target
