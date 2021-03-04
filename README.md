@@ -26,6 +26,7 @@ Restart the pi and open a client device and ensure that connections to the pi Pl
 cd ~/
 git clone https://github.com/Ali1/PlexLocalWOL/
 cd ~/PlexLocalWOL
+composer install
 cp src/config.php.new src/config.php
 nano src/config.php # EDIT the mac and host field
 ```
