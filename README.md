@@ -9,12 +9,6 @@ If you have a raspberry pi, why not save some energy and allow the server that h
 
 ## Installation
 
-## Install
-```
-cd ~/
-git clone https://github.com/Ali1/PlexLocalWOL/
-```
-
 ### Plex set up
 First install Plex on the raspberry pi to act as a dummy server.
 On ubuntu this can be done using apt - check the Plex website
@@ -25,17 +19,29 @@ It should automatically auto-start on every reboot.
 This dummy server ensures that the Pi is kept in the loop when you are remotely trying to access Plex media.
 Now that you have a Plex server on your raspberry pi, connections to the pi  will be made every time a Plex client opens on e.g. on your TV or your phone app.
 
-Now configure the app
+Restart the pi and open a client device and ensure that connections to the pi Plex server work well both locally and also when you turn off Wifi and access via mobile internet to ensure Remote Access is working.
+
+### Install and configure the app
+```
+cd ~/
+git clone https://github.com/Ali1/PlexLocalWOL/
+cd ~/PlexLocalWOL
+cp src/config.php.new src/config.php
+nano src/config.php # EDIT the mac and host field
+```
+### Now install as an auto-starting service
 ```
 cd ~/PlexLocalWOL
-cp config.php.new config.php
-nano config.php
+nano plexlocalwol.service # check Exec command location of bin file is correct (is ubuntu your username?) - modify if needed
+sudo bin/install
 ```
-Now install as an auto-starting service
+
+### Check status
 ```
 cd ~/PlexLocalWOL
-bin/install
+sudo bin/status
 ```
+
 ## FAQ
 ### My ethernet connection is slow. Can I use wifi and ethernet
 On windows you can enable both and WOL should work. Make sure to prioritise your wifi connection to take advantage of the speed. https://www.windowscentral.com/how-change-priority-order-network-adapters-windows-10

@@ -3,5 +3,5 @@ return [
     'mac' => '60:45:cb:82:06:d0', // wake on lan packets sent here
     'host' => '192.168.1.165', // to check if server already awake
     'log_file_location' => '/var/lib/plexmediaserver/Library/Application Support/Plex Media Server/Logs/Plex Media Server.log', // script will monitor this file
-    'http_logger' => 'https://sentry.alibakir.com/log/1?api_key=209tj0439jtg90jg023j032jf032jf032jg0i23jg230i23j0iewg&type=info&message=', // webhook e.g. "http://log.com/addlog?key=private&message="
+    'http_logger' => false // webhook e.g. "http://log.com/addlog?key=private&message=" or false if not using
 ];
