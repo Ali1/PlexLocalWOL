@@ -1,0 +1,5 @@
+#!/bin/bash
+# This file should be ran
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." >/dev/null 2>&1 && pwd )"
+cd $DIR
+php src/index.php

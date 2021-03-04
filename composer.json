@@ -1,0 +1,7 @@
+{
+    "require": {
+        "geerlingguy/ping": "^1.2",
+        "diegonz/php-wake-on-lan": "^2.1",
+        "cakephp/chronos": "^2.1"
+    }
+}
