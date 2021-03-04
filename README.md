@@ -21,6 +21,8 @@ Now that you have a Plex server on your raspberry pi, connections to the pi  wil
 
 Restart the pi and open a client device and ensure that connections to the pi Plex server work well both locally and also when you turn off Wifi and access via mobile internet to ensure Remote Access is working.
 
+**Check that "Enable Plex Media Server debug logging" is enabled on the Pi Plex server (under Settings -> General). Verbose logging is not required.
+
 ### Install and configure the app
 ```
 cd ~/
