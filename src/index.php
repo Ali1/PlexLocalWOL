@@ -25,14 +25,18 @@ while (true) {
     $old_is_on = $is_on;
     $is_on = $ping->ping() !== false;
     if ($is_on !== $old_is_on) {
-        if ($is_on) {
-            echo logg('PC Has Turned On');
-        } else {
-            echo logg('PC Has Turned Off - resetting logs');
-            $out = array();
-            $tail = exec("tail -1 \"{$config['log_file_location']}\"", $out);
-            $time = \Cake\Chronos\Chronos::parse(substr($tail, 0, 25) . '00');
-            $last_log = $time;
+        sleep(3); // double check after 3 seconds
+        $is_on = $ping->ping() !== false;
+        if ($is_on !== $old_is_on) {
+            if ($is_on) {
+                echo logg('PC Has Turned On - will not monitor logs');
+            } else {
+                echo logg('PC Has Turned Off - resetting logs then begin monitoring');
+                $out = array();
+                $tail = exec("tail -1 \"{$config['log_file_location']}\"", $out);
+                $time = \Cake\Chronos\Chronos::parse(substr($tail, 0, 25) . '00');
+                $last_log = $time;
+            }
         }
     }
     if ($is_on) {
