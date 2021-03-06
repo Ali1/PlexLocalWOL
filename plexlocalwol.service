@@ -7,7 +7,7 @@ Type=simple
 TimeoutSec=0
 PIDFile=/var/run/plexlocalwol.pid
 ExecStart=/bin/bash /home/ubuntu/PlexLocalWOL/bin/service
-KillMode=process
+KillMode=control-group
 
 Restart=on-failure
 RestartSec=42s

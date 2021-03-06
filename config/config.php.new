@@ -1,0 +1,19 @@
+<?php
+return [
+    // wake on lan packets sent here
+    'mac' => '60:45:cb:82:06:d0',
+
+    // to check if server already awake
+    'host' => '192.168.1.165',
+
+    // script will monitor this file
+    'log_file_location' => '/var/lib/plexmediaserver/Library/Application Support/Plex Media Server/Logs/Plex Media Server.log',
+
+    // webhook for posting log activity (POST data will include message and type) e.g. "http://log.com/addlog?key=private"
+    // false to disable
+    'http_logger' => false,
+
+    // ignore connections from these hosts
+    // recommend at least 127.0.0.1 to prevent pi own Plex process activity from waking server
+    'ignored_hosts' => ['127.0.0.1'],
+];

@@ -1,7 +1,0 @@
-<?php
-return [
-    'mac' => '60:45:cb:82:06:d0', // wake on lan packets sent here
-    'host' => '192.168.1.165', // to check if server already awake
-    'log_file_location' => '/var/lib/plexmediaserver/Library/Application Support/Plex Media Server/Logs/Plex Media Server.log', // script will monitor this file
-    'http_logger' => false // webhook e.g. "http://log.com/addlog?key=private&message=" or false if not using
-];
