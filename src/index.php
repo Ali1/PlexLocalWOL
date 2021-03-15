@@ -33,8 +33,13 @@ while (true) {
     $old_is_on = $is_on;
     $is_on = is_on();
     if ($is_on !== $old_is_on) { // change in PC status
-        sleep(5); // double check after 5 seconds
-        $is_on = is_on();
+        for ($i = 0; $i < 6; $i++) {
+            sleep(2); // double check a few times
+            $is_on = is_on();
+            if ($is_on === $old_is_on) {
+                break;
+            }
+        }
         if ($is_on !== $old_is_on) {
             if ($is_on) {
                 echo logg('PC Has Turned On - will not monitor logs', 'debug');
@@ -50,7 +55,7 @@ while (true) {
     } else {
         $out = array();
         $log_time = last_log_time(); // null or time
-        if (!$log_time || $last_log->lte($log_time)) {
+        if (!$log_time || $last_log->gte($log_time)) {
             if (!$log_time) {
                 echo logg('No log entries in ' . $config['log_file_location'] . ' - Invalid log file location??', 'error');
             } else {
@@ -93,6 +98,7 @@ while (true) {
                         if (is_on()) {
                             echo logg('Successfully switch on PC');
                             $has_switched_on = true;
+                            break;
                         } elseif ($i === 5 || $i === 10) {
                             echo logg('Reattempting WOL after ' . $i . ' seconds');
                             print_r($wol->wake([$config['mac']])); // reattempt WOL twice
@@ -109,11 +115,6 @@ while (true) {
                 }
             }
             echo $line . "\n";
-        }
-        if (!$new_lines) {
-            echo 'Pulled ' . count($out) . " lines from log file - no news\n";
-        } else {
-            echo "********\n";
         }
         $last_log = last_log_time();
         sleep(2);
