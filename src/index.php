@@ -14,7 +14,7 @@ catch (Exception $e) {
 
 $is_on = is_on();
 if (!$is_on) {
-    sleep(5); // double check after 5 seconds
+    sleep(3); // double check after 5 seconds
     $is_on = is_on();
 }
 
@@ -33,20 +33,21 @@ while (true) {
     $old_is_on = $is_on;
     $is_on = is_on();
     if ($is_on !== $old_is_on) { // change in PC status
-        for ($i = 0; $i < 6; $i++) {
+        $times_to_recheck_ping = $is_on ? 2 : 10; // if turned off, check ping recurrently for at least 20 seconds
+        for ($i = 0; $i < $times_to_recheck_ping; $i++) {
             sleep(2); // double check a few times
             $is_on = is_on();
             if ($is_on === $old_is_on) {
                 break;
             }
         }
-        if ($is_on !== $old_is_on) {
-            if ($is_on) {
-                echo logg('PC Has Turned On - will not monitor logs', 'debug');
-            } else {
-                echo logg('PC Has Turned Off - resetting logs then begin monitoring', 'debug');
-                $last_log = last_log_time();
-            }
+    }
+    if ($is_on !== $old_is_on) {
+        if ($is_on) {
+            echo logg('PC Has Turned On - will not monitor logs', 'debug');
+        } else {
+            echo logg('PC Has Turned Off - resetting logs then begin monitoring', 'debug');
+            $last_log = last_log_time();
         }
     }
     if ($is_on) {
