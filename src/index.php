@@ -76,16 +76,14 @@ while (true) {
                 echo logg('Log line without parsable time (ignoring line)', 'error');
                 continue;
             }
-            if (
-                strpos($line, 'Completed: [') !== false
-                && strpos($line, 'Completed: [127.0.0.1]') === false
-            ) {
+            if (strpos($line, 'Completed: [') !== false) {
+                logg($line);
                 foreach ($config['ignored_hosts'] as $ignored_host) {
                     if (strpos($line, $ignored_host) !== false) {
                         echo logg('Ignoring valid string due to configured ignored host ' . $ignored_host, 'debug');
                     }
+                    continue;
                 }
-                logg($line);
                 try {
                     $wol = new PHPWakeOnLan();
                     echo "****\n";
