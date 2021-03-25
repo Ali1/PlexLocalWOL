@@ -82,8 +82,8 @@ while (true) {
                 foreach ($config['ignored_hosts'] as $ignored_host) {
                     if (strpos($line, $ignored_host) !== false) {
                         echo logg('Ignoring valid string due to configured ignored host ' . $ignored_host, 'debug');
+                        continue(2);
                     }
-                    continue;
                 }
                 try {
                     $wol = new PHPWakeOnLan();
