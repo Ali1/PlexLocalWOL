@@ -3,16 +3,16 @@
 If you have a raspberry pi, why not save some energy and allow the server that hosts a Plex Media Server to go to sleep! The Raspberry Pi can act as an addition Plex server, but will work to also activate a sleeping local server via Wake-On-Lan features once a client device is connected.
 
 ## Requirements
-* PHP with ext-sockets (default for ubuntu on raspberry)
-* You need to know the MAC address of the ethernet port of your powerful PC
+* PHP with ext-sockets (you may need to install PHP `sudo apt install -y php`
+* Composer  `sudo apt install -y composer`
+* You need to know the MAC address and IP address of the ethernet port of your powerful PC with a Plex Server
 * Your powerful PC needs to accept Wake-On-Lan packets (https://www.howtogeek.com/70374/how-to-geek-explains-what-is-wake-on-lan-and-how-do-i-enable-it/)
 
 ## Installation
 
 ### Plex set up
 First install Plex on the raspberry pi to act as a dummy server.
-On ubuntu this can be done using apt - check the Plex website
-Or if you are using Raspbian, check this https://thepi.io/how-to-set-up-a-raspberry-pi-plex-server/
+On rasperry pi OS/ubuntu this can be done using apt - there are a number of tutorials to set this up
 
 Go to http://localhost:32400/web/index.html on the pi and link it to your Plex account.
 It should automatically auto-start on every reboot.
@@ -21,28 +21,28 @@ Now that you have a Plex server on your raspberry pi, connections to the pi  wil
 
 Restart the pi and open a client device and ensure that connections to the pi Plex server work well both locally and also when you turn off Wifi and access via mobile internet to ensure Remote Access is working.
 
-**Check that "Enable Plex Media Server debug logging" is enabled on the Pi Plex server (under Settings -> General). Verbose logging is not required.
+**In Plex settings, "Enable Plex Media Server debug logging" is enabled on the Pi Plex server (under Settings -> General). Verbose logging is not required.
 
 ### Install and configure the app
 ```
-cd ~/
-git clone https://github.com/Ali1/PlexLocalWOL/
-cd ~/PlexLocalWOL
-composer install
-cp src/config.php.new src/config.php
-nano src/config.php # EDIT the mac and host field
+sudo adduser --system --no-create-home --group plexlocalwol
+sudo mkdir /usr/local/plexlocalwol
+sudo cd /usr/local/plexlocalwol
+sudo git clone https://github.com/Ali1/PlexLocalWOL/ ./
+sudo composer install
+cp config/config.php.new config/config.php
+nano config/config.php # EDIT the mac and host IP address fields
+sudo chown -R plexlocalwol:plexlocalwol /usr/local/plexlocalwol/
 ```
 ### Now install as an auto-starting service
 ```
-cd ~/PlexLocalWOL
-nano plexlocalwol.service # check Exec command location of bin file is correct (is ubuntu your username?) - modify if needed
+sudo cd /usr/local/plexlocalwol
 sudo bin/install
 ```
 
 ### Check status
 ```
-cd ~/PlexLocalWOL
-sudo bin/status
+systemctl status plexlocalwol
 ```
 
 ## FAQ
