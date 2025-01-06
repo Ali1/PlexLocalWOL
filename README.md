@@ -27,7 +27,7 @@ Restart the pi and open a client device and ensure that connections to the pi Pl
 ```
 sudo adduser --system --no-create-home --group plexlocalwol
 sudo mkdir /usr/local/plexlocalwol
-sudo cd /usr/local/plexlocalwol
+cd /usr/local/plexlocalwol
 sudo git clone https://github.com/Ali1/PlexLocalWOL/ ./
 sudo composer install
 cp config/config.php.new config/config.php
