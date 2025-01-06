@@ -1,4 +1,3 @@
-{
     "_readme": [
         "This file locks the dependencies of your project to a known state",
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
@@ -8,33 +7,33 @@
     "packages": [
         {
             "name": "cakephp/chronos",
-            "version": "2.1.1",
+            "version": "2.4.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/chronos.git",
-                "reference": "5929b743aec34b3a2f74c70c383706f7f12e2725"
+                "reference": "b0321ab7658af9e7abcb3dd876f226e6f3dbb81f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/chronos/zipball/5929b743aec34b3a2f74c70c383706f7f12e2725",
-                "reference": "5929b743aec34b3a2f74c70c383706f7f12e2725",
+                "url": "https://api.github.com/repos/cakephp/chronos/zipball/b0321ab7658af9e7abcb3dd876f226e6f3dbb81f",
+                "reference": "b0321ab7658af9e7abcb3dd876f226e6f3dbb81f",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.2"
             },
             "require-dev": {
-                "cakephp/cakephp-codesniffer": "^4.0",
+                "cakephp/cakephp-codesniffer": "^4.5",
                 "phpunit/phpunit": "^8.0 || ^9.0"
             },
             "type": "library",
             "autoload": {
-                "psr-4": {
-                    "Cake\\Chronos\\": "src/"
-                },
                 "files": [
                     "src/carbon_compat.php"
-                ]
+                ],
+                "psr-4": {
+                    "Cake\\Chronos\\": "src/"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -48,50 +47,54 @@
                 },
                 {
                     "name": "The CakePHP Team",
-                    "homepage": "http://cakephp.org"
+                    "homepage": "https://cakephp.org"
                 }
             ],
             "description": "A simple API extension for DateTime.",
-            "homepage": "http://cakephp.org",
+            "homepage": "https://cakephp.org",
             "keywords": [
                 "date",
                 "datetime",
                 "time"
             ],
-            "time": "2021-02-06T03:37:44+00:00"
+            "support": {
+                "issues": "https://github.com/cakephp/chronos/issues",
+                "source": "https://github.com/cakephp/chronos"
+            },
+            "time": "2024-07-30T22:26:11+00:00"
         },
         {
             "name": "diegonz/php-wake-on-lan",
-            "version": "v2.1.0",
+            "version": "v2.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/diegonz/PHPWakeOnLan.git",
-                "reference": "17dc15d374d877dfd4b6fc24f3db2ec0bee8391f"
+                "reference": "9d6a7bd52eb6edd4293053069574edbdf75d3f60"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/diegonz/PHPWakeOnLan/zipball/17dc15d374d877dfd4b6fc24f3db2ec0bee8391f",
-                "reference": "17dc15d374d877dfd4b6fc24f3db2ec0bee8391f",
+                "url": "https://api.github.com/repos/diegonz/PHPWakeOnLan/zipball/9d6a7bd52eb6edd4293053069574edbdf75d3f60",
+                "reference": "9d6a7bd52eb6edd4293053069574edbdf75d3f60",
                 "shasum": ""
             },
             "require": {
                 "ext-ctype": "*",
                 "ext-sockets": "*",
-                "php": "^7.1.8"
+                "php": "^7.1.8|^8.0"
             },
             "require-dev": {
-                "orchestra/testbench": "3.8.*",
-                "phpunit/phpunit": "^7.0"
+                "orchestra/testbench": "^3.8|^7.0",
+                "phpunit/phpunit": "^7.0|^8.0"
             },
             "type": "library",
             "extra": {
                 "laravel": {
-                    "providers": [
-                        "Diegonz\\PHPWakeOnLan\\PHPWakeOnLanServiceProvider"
-                    ],
                     "aliases": {
                         "PHPWakeOnLan": "Diegonz\\PHPWakeOnLan\\Facades\\PHPWakeOnLan"
-                    }
+                    },
+                    "providers": [
+                        "Diegonz\\PHPWakeOnLan\\PHPWakeOnLanServiceProvider"
+                    ]
                 }
             },
             "autoload": {
@@ -117,7 +120,11 @@
                 "wake",
                 "wakeonlan"
             ],
-            "time": "2019-04-01T18:48:45+00:00"
+            "support": {
+                "issues": "https://github.com/diegonz/PHPWakeOnLan/issues",
+                "source": "https://github.com/diegonz/PHPWakeOnLan/tree/v2.1.1"
+            },
+            "time": "2023-02-24T08:10:19+00:00"
         },
         {
             "name": "geerlingguy/ping",
@@ -150,6 +157,10 @@
                 }
             ],
             "description": "A PHP class to ping hosts.",
+            "support": {
+                "issues": "https://github.com/geerlingguy/Ping/issues",
+                "source": "https://github.com/geerlingguy/Ping/tree/1.2.1"
+            },
             "time": "2019-07-29T21:54:12+00:00"
         }
     ],
@@ -161,5 +172,5 @@
     "prefer-lowest": false,
     "platform": [],
     "platform-dev": [],
-    "plugin-api-version": "1.1.0"
+    "plugin-api-version": "2.3.0"
 }
