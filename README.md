@@ -30,13 +30,13 @@ sudo mkdir /usr/local/plexlocalwol
 cd /usr/local/plexlocalwol
 sudo git clone https://github.com/Ali1/PlexLocalWOL/ ./
 sudo composer install
-cp config/config.php.new config/config.php
-nano config/config.php # EDIT the mac and host IP address fields
+sudo cp config/config.php.new config/config.php
+sudo nano config/config.php # EDIT the mac and host IP address fields
 sudo chown -R plexlocalwol:plexlocalwol /usr/local/plexlocalwol/
 ```
 ### Now install as an auto-starting service
 ```
-sudo cd /usr/local/plexlocalwol
+cd /usr/local/plexlocalwol
 sudo bin/install
 ```
 
