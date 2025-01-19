@@ -56,7 +56,7 @@ while (true) {
     } else {
         $out = array();
         $log_time = last_log_time(); // null or time
-        if (!$log_time || $last_log->gte($log_time)) {
+        if (!$log_time || $last_log->greaterThanOrEquals($log_time)) {
             if (!$log_time) {
                 echo logg('No log entries in ' . $config['log_file_location'] . ' - Invalid log file location??', 'error');
             } else {
