@@ -124,15 +124,42 @@ while (true) {
 function logg($message, $type = 'info') {
     global $config;
     if ($config['http_logger']) {
-        $context  = stream_context_create(['http' => [
-            'method'  => 'POST',
-            'header'  => 'Content-Type: application/x-www-form-urlencoded',
-            'content' => http_build_query([
-                'message' => $message . ' (PID ' . getmypid() . ')',
-                'type' => $type
-            ])
-        ]]);
-        file_get_contents($config['http_logger'], false, $context);
+        $url = $config['http_logger'];
+        $postData = [
+            'message' => $message . ' (PID ' . getmypid() . ')',
+            'type' => $type
+        ];
+
+        $ch = curl_init();
+        $errorOccurred = false;
+
+        try {
+            // Set cURL options
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postData));
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, false); // Non-blocking: do not wait for the response
+            curl_setopt($ch, CURLOPT_TIMEOUT, 2); // Total execution time of 2 seconds
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 1); // Connection timeout of 1 second
+            curl_setopt($ch, CURLOPT_FAILONERROR, true); // Consider HTTP errors as failures
+
+            // Execute the request
+            if (curl_exec($ch) === false) {
+                $errorOccurred = true;
+                error_log("Error in logg: " . curl_error($ch));
+            }
+        } catch (Exception $e) {
+            $errorOccurred = true;
+            error_log("Exception in logg: " . $e->getMessage());
+        } finally {
+            // Always close the cURL handle
+            curl_close($ch);
+        }
+
+        if ($errorOccurred) {
+            return "Logged: $message (HTTP logging failed)\n";
+        }
+
         return "Logged: $message\n";
     }
     return "$message\n";
