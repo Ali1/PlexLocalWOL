@@ -1,7 +1,9 @@
 {
     "require": {
         "geerlingguy/ping": "^1.2",
-        "diegonz/php-wake-on-lan": "^2.1",
-        "cakephp/chronos": "^2.5.2"
+        "diegonz/php-wake-on-lan": "^2.1"
+    },
+    "scripts": {
+        "test": "php tests/log_reader_test.php"
     }
 }
