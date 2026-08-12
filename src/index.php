@@ -3,6 +3,7 @@
 use \Diegonz\PHPWakeOnLan\PHPWakeOnLan;
 
 require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/log_reader.php';
 
 $config = require(__DIR__ . '/../config/config.php');
 
@@ -20,7 +21,7 @@ if (!$is_on) {
 
 $last_ping = $last_wol = 0;
 
-$last_log = last_log_time();
+$log_offset = log_end_offset($config['log_file_location']);
 
 if ($is_on) {
     echo logg('Service Started. PC is On - will not monitor logs, will recheck in 20 seconds');
@@ -47,36 +48,25 @@ while (true) {
             echo logg('PC Has Turned On - will not monitor logs', 'debug');
         } else {
             echo logg('PC Has Turned Off - resetting logs then begin monitoring', 'debug');
-            $last_log = last_log_time();
+            $log_offset = log_end_offset($config['log_file_location']);
         }
     }
     if ($is_on) {
         echo "PC is on, will recheck in 20 seconds\n";
         sleep(20);
     } else {
-        $out = array();
-        $log_time = last_log_time(); // null or time
-        if (!$log_time || $last_log->greaterThanOrEquals($log_time)) {
-            if (!$log_time) {
+        $out = read_new_log_lines($config['log_file_location'], $log_offset);
+        if ($out === null || $out === []) {
+            if ($out === null) {
                 echo logg('No log entries in ' . $config['log_file_location'] . ' - Invalid log file location??', 'error');
             } else {
                 echo "No new log entries\n";
             }
-            $last_log = $log_time;
             sleep(2);
             continue;
         }
-        $tail = exec("tail -50 \"{$config['log_file_location']}\"", $out);
         echo "*** NEW LINES ***\n";
         foreach($out as $k => $line) {
-            echo $line;
-            try {
-                $log_time = \Cake\Chronos\Chronos::parse(substr($line, 0, 25) . '00'); // @todo preg match this in case log format changes
-            } catch (Exception $e) {
-                logg($line, 'debug');
-                echo logg('Log line without parsable time (ignoring line)', 'error');
-                continue;
-            }
             if (strpos($line, 'Completed: [') !== false) {
                 logg($line);
                 foreach ($config['ignored_hosts'] as $ignored_host) {
@@ -106,7 +96,7 @@ while (true) {
                     if (!$has_switched_on) {
                         echo logg('ERROR - did not switch on after 3 WOLs', 'error');
                     }
-                    $last_log = last_log_time();
+                    $log_offset = log_end_offset($config['log_file_location']);
                     break;
                 } catch (Exception $e) {
                     echo logg('Error sending WOL - ' . $e->getMessage(), 'error');
@@ -115,7 +105,6 @@ while (true) {
             }
             echo $line . "\n";
         }
-        $last_log = last_log_time();
         sleep(2);
     }
 }
@@ -163,20 +152,6 @@ function logg($message, $type = 'info') {
         return "Logged: $message\n";
     }
     return "$message\n";
-}
-
-function last_log_time() {
-    global $config;
-    $out = array();
-    $tail = exec("tail -1 \"{$config['log_file_location']}\"", $out);
-    if (!$tail) {
-        return null;
-    }
-    try {
-        return \Cake\Chronos\Chronos::parse(substr($tail, 0, 25) . '00');
-    } catch (Exception $e) {
-        return null;
-    }
 }
 
 function is_on() {

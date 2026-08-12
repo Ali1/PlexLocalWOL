@@ -3,7 +3,7 @@
 If you have a raspberry pi, why not save some energy and allow the server that hosts a Plex Media Server to go to sleep! The Raspberry Pi can act as an addition Plex server, but will work to also activate a sleeping local server via Wake-On-Lan features once a client device is connected.
 
 ## Requirements
-* PHP with ext-sockets (you may need to install PHP `sudo apt install -y php`
+* PHP 8.0 or newer with ext-sockets (you may need to install PHP: `sudo apt install -y php php-sockets`)
 * Composer  `sudo apt install -y composer`
 * You need to know the MAC address and IP address of the ethernet port of your powerful PC with a Plex Server
 * Your powerful PC needs to accept Wake-On-Lan packets (https://www.howtogeek.com/70374/how-to-geek-explains-what-is-wake-on-lan-and-how-do-i-enable-it/)
