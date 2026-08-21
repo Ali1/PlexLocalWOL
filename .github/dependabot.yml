@@ -1,0 +1,20 @@
+# Estate dependency-update policy: group routine minor/patch updates monthly.
+# Security updates remain immediate; major updates stay separate for deliberate review.
+version: 2
+
+updates:
+  - package-ecosystem: "composer"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+      time: "06:00"
+      timezone: "Europe/London"
+    open-pull-requests-limit: 10
+    groups:
+      routine-minor-and-patch:
+        applies-to: "version-updates"
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
