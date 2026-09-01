@@ -1,5 +1,5 @@
-# Estate dependency-update policy: group routine minor/patch updates monthly.
-# Security updates remain immediate; major updates stay separate for deliberate review.
+# Estate policy: Dependabot opens security updates only.
+# Routine currency, EOL and provider/API changes belong to quarterly Full Ops.
 version: 2
 
 updates:
@@ -9,12 +9,4 @@ updates:
       interval: "monthly"
       time: "06:00"
       timezone: "Europe/London"
-    open-pull-requests-limit: 10
-    groups:
-      routine-minor-and-patch:
-        applies-to: "version-updates"
-        patterns:
-          - "*"
-        update-types:
-          - "minor"
-          - "patch"
+    open-pull-requests-limit: 0
