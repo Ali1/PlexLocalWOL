@@ -1,0 +1,29 @@
+name: Nightly static and unit checks
+run-name: core-checks:${{ github.sha }}
+'on':
+  schedule:
+  - cron: 31 1 * * *
+  workflow_dispatch: null
+permissions:
+  contents: read
+concurrency:
+  group: core-checks-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  unit:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v5
+    - name: Require exact default source
+      env:
+        DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+      run: 'test "$GITHUB_REF" = "refs/heads/$DEFAULT_BRANCH"
+
+        test "$(git rev-parse HEAD)" = "$GITHUB_SHA"'
+    - uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.4'
+        extensions: mbstring, intl, pdo_sqlite, pdo_mysql
+        coverage: none
+    - run: php tests/log_reader_test.php
+    timeout-minutes: 40
