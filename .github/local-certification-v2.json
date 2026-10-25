@@ -1,0 +1,6 @@
+{
+  "schema_version": 2,
+  "repository": "Ali1/PlexLocalWOL",
+  "categories": {},
+  "unmapped_coverage": "All categories not explicitly declared reusable remain required on their real platform/runtime/database; no whole-application certificate is inferred."
+}
