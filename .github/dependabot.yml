@@ -1,12 +1,16 @@
-# Estate policy: Dependabot opens security updates only.
-# Routine currency, EOL and provider/API changes belong to quarterly Full Ops.
+# Monthly routine version proposals; security updates remain independent.
+# Full Ops still owns runtime/EOL and provider/API lifecycle review.
 version: 2
-
 updates:
-  - package-ecosystem: "composer"
-    directory: "/"
+  - package-ecosystem: composer
+    directory: /
     schedule:
-      interval: "monthly"
-      time: "06:00"
-      timezone: "Europe/London"
-    open-pull-requests-limit: 0
+      interval: monthly
+      time: 06:00
+      timezone: Europe/London
+    open-pull-requests-limit: 2
+    groups:
+      routine-maintenance-composer-root:
+        applies-to: version-updates
+        patterns:
+          - '*'
