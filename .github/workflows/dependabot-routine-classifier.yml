@@ -48,6 +48,12 @@ jobs:
               groups={group for _,group in entries} if entries else set()
               return next(iter(groups)) if len(groups)==1 else None
 
+          def routine_pull_snapshot(pull):
+              """Fence classification inputs, excluding GitHub's computed mergeability/etc."""
+              return (pull['html_url'],pull['number'],pull['state'],pull['user']['login'],
+                      pull['head']['sha'],pull['head']['ref'],pull['head']['repo']['full_name'],
+                      pull['base']['ref'],pull['base']['repo']['full_name'])
+
           def routine_provenance(pull, commit, config, repo, default_branch, native_urls):
               """Conservative stdlib-only subset of Dependabot's verified metadata contract.
 
@@ -118,7 +124,7 @@ jobs:
               routine=config is not None and routine_provenance(pull,commit,config,repo,branch,set())
               if routine:
                   fresh=api(f'repos/{repo}/pulls/{number}')
-                  if fresh!=pull or base64.b64decode(api(config_ep)['content']).decode('utf-8')!=config:raise RuntimeError('Concurrent PR/config change')
+                  if routine_pull_snapshot(fresh)!=routine_pull_snapshot(pull) or base64.b64decode(api(config_ep)['content']).decode('utf-8')!=config:raise RuntimeError('Concurrent PR/config change')
                   routine=routine_provenance(fresh,commit,config,repo,branch,set())
               label(routine)
           except Exception:
