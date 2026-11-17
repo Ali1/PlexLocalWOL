@@ -123,7 +123,7 @@ try {
     Write-Host "Testing exact commit $commitSha in $sourceRoot"
     # Never inherit an agent's production/provider credentials or database URL.
     $environmentNames = @((Get-ChildItem Env: | Where-Object {
-        $_.Name -match '(^AWS_|^GOOGLE_|^EXPO_|^CLOUDFLARE_|^DB_|^DATABASE|^MAIL_|^STRIPE_|^HARLEYST_|^IMCAL_|TOKEN|SECRET|PASSWORD|CREDENTIAL)'
+        $_.Name -match '(^AWS_|^GOOGLE_|^EXPO_|^CLOUDFLARE_|^DB_|^DATABASE|^MYSQL_|^MARIADB_|^MAIL_|^STRIPE_|^HARLEYST_|^IMCAL_|TOKEN|SECRET|PASSWORD|CREDENTIAL)'
     }).Name) + @($recipe.environment.PSObject.Properties.Name)
     foreach ($key in ($environmentNames | Select-Object -Unique)) {
         $previousEnvironment[$key] = [Environment]::GetEnvironmentVariable($key, 'Process')
