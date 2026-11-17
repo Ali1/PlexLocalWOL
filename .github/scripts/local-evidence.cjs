@@ -17,9 +17,15 @@ function describe(policy, category, sha, readInput, verifier = fs.readFileSync(_
   if (policy.schema_version !== 2 || !shaPattern.test(sha) || !/^Ali1\/[A-Za-z0-9_.-]+$/.test(policy.repository)) throw Error('Invalid source/policy');
   const definition = policy.categories[category];
   if (!definition || definition.reusable !== true || !definition.local_check || !definition.scope || !definition.inputs?.length) throw Error('Category has no supported complete local recipe');
-  // Cross-platform static analysis is the only portable exception. Browser/native/Linux
-  // and database results require their own faithful publisher, never Windows substitution.
-  if (definition.scope.platform !== 'portable-static' || definition.scope.database !== 'none' || definition.scope.kind !== 'static' || !['php-8.4', 'node-22'].includes(definition.scope.runtime)) throw Error('Unsupported local scope');
+  // Native application categories describe the actual Windows/Laragon contract.
+  // They never attest Linux commissioning or production-engine equivalence.
+  const scope = definition.scope;
+  const runtime = ['php-8.4', 'php-8.5', 'node-22'].includes(scope.runtime);
+  const portable = scope.platform === 'portable-static' && scope.database === 'none' && scope.kind === 'static';
+  const native = scope.platform === 'windows-native'
+    && ['none', 'sqlite', 'mysql-8.4'].includes(scope.database)
+    && ['unit', 'integration', 'browser', 'build', 'static'].includes(scope.kind);
+  if (!runtime || (!portable && !native)) throw Error('Unsupported local scope');
   const inputs = Object.fromEntries(definition.inputs.map(file => {
     if (!/^[A-Za-z0-9_.\/-]+$/.test(file) || file.split('/').includes('..')) throw Error('Unsafe input path');
     return [file, digest(readInput(file))];

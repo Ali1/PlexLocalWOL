@@ -30,9 +30,13 @@ try {
         $json = & node $helper describe $category
         if ($LASTEXITCODE -ne 0) { throw "No compatible complete recipe for $category" }
         $descriptions[$category] = $json | ConvertFrom-Json
-        if ($descriptions[$category].scope.runtime -eq 'php-8.4') {
+        if ($descriptions[$category].scope.platform -eq 'windows-native' -and [Environment]::OSVersion.Platform -ne [PlatformID]::Win32NT) {
+            throw 'A Windows-native category requires Windows; do not relabel another platform.'
+        }
+        if ($descriptions[$category].scope.runtime -in @('php-8.4', 'php-8.5')) {
+            $expectedPhp = $descriptions[$category].scope.runtime.Substring(4)
             $runtime = (& php -r 'echo PHP_VERSION;').Trim()
-            if ($LASTEXITCODE -ne 0 -or $runtime -notmatch '^8\.4\.') { throw 'PHP 8.4 required by category scope.' }
+            if ($LASTEXITCODE -ne 0 -or $runtime -notmatch ('^' + [regex]::Escape($expectedPhp) + '\.')) { throw "PHP $expectedPhp required by category scope." }
         } elseif ($descriptions[$category].scope.runtime -eq 'node-22') {
             $runtime = (& node --version).Trim()
             if ($LASTEXITCODE -ne 0 -or $runtime -notmatch '^v22\.') { throw 'Node 22 required by category scope.' }

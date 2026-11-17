@@ -1,6 +1,23 @@
 {
   "schema_version": 2,
   "repository": "Ali1/PlexLocalWOL",
-  "categories": {},
+  "categories": {
+    "unit": {
+      "reusable": true,
+      "local_check": "unit",
+      "scope": {
+        "platform": "windows-native",
+        "runtime": "php-8.4",
+        "database": "none",
+        "kind": "unit"
+      },
+      "inputs": [
+        ".github/local-certification-v2.json",
+        ".github/local-checks.json",
+        "bin/certify-local.ps1",
+        "bin/certify-local-v2.ps1"
+      ]
+    }
+  },
   "unmapped_coverage": "All categories not explicitly declared reusable remain required on their real platform/runtime/database; no whole-application certificate is inferred."
 }

@@ -1,0 +1,25 @@
+{
+  "repository": "Ali1/PlexLocalWOL",
+  "environment": {
+    "CI": "true"
+  },
+  "setup": {
+    "php": []
+  },
+  "checks": {
+    "unit": {
+      "setup": [
+        "php"
+      ],
+      "commands": [
+        {
+          "program": "php",
+          "args": [
+            "tests/log_reader_test.php"
+          ]
+        }
+      ],
+      "junit": false
+    }
+  }
+}
